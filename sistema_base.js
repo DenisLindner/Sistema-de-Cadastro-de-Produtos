@@ -12,35 +12,146 @@ const prompt = require('prompt-sync')();
 const produtos = [];
 
 // --- Funções a Serem Desenvolvidas ---
+class Produto {
+    constructor(nome, preco, qtd) {
+      this.nome = nome;
+      this.preco = preco;
+      this.qtd = qtd;
+    }
+
+    getNome(){
+        return this.nome;
+    }
+
+    getPreco(){
+        return this.preco;
+    }
+
+    setPreco(preco){
+        this.preco = preco;
+    }
+
+    getQtd(){
+        return this.qtd;
+    }
+
+    setQtd(qtd){
+        this.qtd = qtd;
+    }
+
+    toString(){
+        return `\nNome: ${this.nome}\nPreco: ${this.preco}\nQuantidade: ${this.qtd}`;
+    }
+  }
+
+function existeNome(nome) {
+    for(produto of produtos){
+        if(produto.getNome() === nome){
+            return true;
+        }
+    }
+    return false
+}
+    
 
 function cadastrarProduto() {
   console.log("\n--- Funcionalidade de Cadastrar Produto ---");
-  // Lógica para cadastrar um produto deve ser implementada aqui
-  console.log("Funcionalidade ainda não implementada.");
+  let nome;
+  do{
+    do{
+    nome = prompt("Insira o Nome do Produto:");
+    } while(nome.length === 0);
+    if(existeNome(nome) === true){
+        console.log("Nome de Produto já cadastrado!");
+    }
+  } while(existeNome(nome) === true)
+
+  let preco;
+  do{
+    preco = prompt("Insira o Preco do Produto:");
+  } while(preco < 0);
+
+  let qtd;
+  do{
+    qtd = prompt("Insira a Quantidade do Produto:");
+  } while(qtd < 0);
+
+  let produto = new Produto(nome, preco, qtd);
+  produtos.push(produto);
+  console.log("Produto Cadastrado com Sucesso!");
 }
 
 function listarProdutos() {
   console.log("\n--- Funcionalidade de Listar Produtos ---");
-  // Lógica para listar todos os produtos deve ser implementada aqui
-  console.log("Funcionalidade ainda não implementada.");
+  if(produtos.length === 0){
+    console.log("Nenhum Produto Cadastrado!");
+    return
+  }
+  console.log("Produtos:");
+  for(let produto of produtos){
+    console.log(produto.toString());
+  }
 }
 
 function procurarProduto() {
-  console.log("\n--- Funcionalidade de Procurar Produto ---");
-  // Lógica para procurar um produto pelo nome deve ser implementada aqui
-  console.log("Funcionalidade ainda não implementada.");
+    let nome;
+    do{
+      nome = prompt("Insira o Nome do Produto:");
+    } while(nome.length === 0);
+
+    for(produto of produtos){
+        if(produto.getNome() === nome){
+            console.log("Produto Encontrado!");
+            console.log(produto.toString());
+            return;
+        }
+    }
+    console.log("Nenhum Produto encontrado com esse nome!");
 }
 
 function atualizarProduto() {
   console.log("\n--- Funcionalidade de Atualizar Produto ---");
-  // Lógica para atualizar um produto deve ser implementada aqui
-  console.log("Funcionalidade ainda não implementada.");
+  let nome;
+    do{
+      nome = prompt("Insira o Nome do Produto:");
+    } while(nome.length === 0);
+
+    for(produto of produtos){
+        if(produto.getNome() === nome){
+            console.log("Produto Encontrado!");
+            let preco;
+            do{
+                preco = prompt("Insira o Novo Preco do Produto:");
+            } while(preco < 0);
+
+            let qtd;
+            do{
+                qtd = prompt("Insira a Nova Quantidade do Produto:");
+            } while(qtd < 0);
+            produto.setPreco(preco)
+            produto.setQtd(qtd)
+            console.log("Produto Atualizado com Sucesso!");
+            return;
+        }
+    }
+    console.log("Nenhum Produto encontrado com esse nome!");
 }
 
 function removerProduto() {
   console.log("\n--- Funcionalidade de Remover Produto ---");
-  // Lógica para remover um produto deve ser implementada aqui
-  console.log("Funcionalidade ainda não implementada.");
+  let nome;
+    do{
+      nome = prompt("Insira o Nome do Produto que deseja remover:");
+    } while(nome.length === 0);
+
+    for(produto of produtos){
+        if(produto.getNome() === nome){
+            produtos.splice(produtos.indexOf(produto), 1)
+            console.log("Produto Removido com Sucesso!");
+            return;
+        }
+    }
+    console.log("Nenhum Produto encontrado com esse nome!");
 }
 
 
